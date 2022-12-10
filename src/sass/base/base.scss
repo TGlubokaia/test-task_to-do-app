@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: $black;
+}
+
+.hide-overflow {
+  overflow: hidden;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 1rem;
+  min-height: 100vh;
+  max-width: $screen-width-full;
+  background-color: $white;
+  box-shadow: 0 0 50px 5px $grey;
+
+  @media screen and (max-width: $screen-width-small) {
+    padding: 7%;
+  }
+}
+
+input,
+textarea,
+select,
+button, a:focus {
+  outline: none;
+  border: 2px solid $black;
+}
+
+textarea {
+  resize: vertical;
+}
+
+button {
+  cursor: pointer;
+}
+
+

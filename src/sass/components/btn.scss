@@ -1,0 +1,36 @@
+button {
+  appearance: none;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: $btn-padding;
+  border-radius: $btn-border-radius;
+  background-color: $main-purple;
+  color: $white;
+  border: 2px solid transparent;
+  transition: background-color 0.4s ease;
+
+  &:hover {
+    background-color: $dark-purple;
+  }
+}
+
+.btn-submit {
+  margin-top: 1rem;
+}
+
+.btn-close {
+  padding: 0;
+  position: relative;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 3rem;
+  background-color: $main-purple;
+}
+
+.btn-close__svg {
+  fill: $white;
+}

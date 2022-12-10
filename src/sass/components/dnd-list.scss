@@ -1,0 +1,20 @@
+.dnd {
+  display: flex;
+  max-width: 1200px; 
+  margin: 0 auto; 
+  justify-content: space-between; 
+  border-radius: $border-radius;
+  transition: color 0.4s ease;
+
+  @media screen and (max-width: $screen-width-medium) {
+    flex-wrap: wrap;
+  }
+}
+
+.dnd--ondrop {
+  color: $grey;
+  
+  svg {
+    fill: $grey;
+  }
+}

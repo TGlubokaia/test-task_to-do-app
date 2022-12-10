@@ -1,0 +1,33 @@
+.dnd__column{
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+
+  @media screen and (max-width: $screen-width-medium) {
+    width: 45%;
+  }
+
+  @media screen and (max-width: $screen-width-small) {
+    width: 100%;
+  }
+}
+
+.column__title {
+  padding: $padding;
+  text-align: center;
+}
+
+.column__container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-grow: 1;
+  padding: 1em;
+  min-height: 10px;
+  border-radius: 10px;
+  transition: background-color 0.4s ease;
+
+  @media screen and (max-width: $screen-width-small) {
+    padding: 5%;
+  }
+}

@@ -1,0 +1,42 @@
+.dnd__task {
+  background-color: $white;
+  user-select: none;
+  padding: 1em;
+  margin-bottom: 6%;
+  min-height: 50px;
+  border-radius: 10px;
+  cursor: move;
+
+  
+}
+
+.task__title-link {
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    color: $dark-purple;
+  }
+}
+
+.task__priority {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.6rem;
+  border-radius: $border-radius;
+  box-sizing: content-box;
+}
+
+.task__priority--low {
+  background-color: $blue;
+}
+
+.task__priority--medium {
+  background-color: $orange;
+}
+
+.task__priority--high {
+  background-color: $red;
+}
+

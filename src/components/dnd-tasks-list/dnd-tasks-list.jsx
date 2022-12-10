@@ -3,6 +3,11 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import DndTasksColumn from '../dnd-tasks-column/dnd-tasks-column';
 import { initialColumns } from '../../mocks/tasks';
 
+const onDragStart = () => {
+  const container = document.querySelector('.dnd');
+  container.classList.add('dnd--ondrop');
+}
+
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
   const { source, destination } = result;
@@ -40,6 +45,8 @@ const onDragEnd = (result, columns, setColumns) => {
       },
     });
   }
+  const container = document.querySelector('.dnd');
+  container.classList.remove('dnd--ondrop');
 };
 
 function DndTaskList({ project }) {
@@ -56,6 +63,7 @@ function DndTaskList({ project }) {
   return (
     <DragDropContext
       onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+      onDragStart={onDragStart}
     >
       <div className='dnd'>
         {Object.entries(columns).map(([columnId, column]) => {

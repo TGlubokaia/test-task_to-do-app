@@ -1,0 +1,48 @@
+.task__footer,
+.task__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 2.5rem;
+}
+
+.task__header {
+  margin-bottom: 0.5rem;
+}
+
+.task__title {
+  font-size: 1rem;
+}
+
+.task__content {
+  min-height: 4rem;
+  margin-bottom: 0.5rem;
+}
+
+.task__footer {
+  @media screen and (max-width: $screen-width-large) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.footer__content {
+  display: flex;
+}
+
+.footer__content-main {
+  display: flex;
+}
+
+.footer__content-main .footer__icon {
+  margin-right: 0.5rem;
+}
+
+.footer__icon {
+  display: flex;
+  align-items: center;
+}
+
+.task-icon__svg {
+  fill: $black;
+}
