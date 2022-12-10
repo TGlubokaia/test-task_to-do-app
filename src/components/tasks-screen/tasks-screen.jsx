@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import DndTasksList from '../dnd-tasks-list/dnd-tasks-list';
 
 function TasksScreen() {
   return (
@@ -11,7 +12,7 @@ function TasksScreen() {
           </Link>
           <button className='nav__btn btn'>Закрыть</button>
         </nav>
-        <div className='tasks-list-container'>Список</div>
+        <DndTasksList />
       </div>
     </div>
   );
