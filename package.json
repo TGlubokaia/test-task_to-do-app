@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.5",
     "react-scripts": "5.0.1",
     "sass": "^1.56.1",
     "web-vitals": "^2.1.4"
@@ -41,8 +42,13 @@
   },
   "prettier": {
     "trailingComma": "es5",
+    "useTabs": false,
     "tabWidth": 2,
-    "semi": true,
-    "singleQuote": true
+    "semicolons": true,
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "bracketSpacing": true,
+    "jsxBracketSameLine": true,
+    "arrowParens": "always"
   }
 }
