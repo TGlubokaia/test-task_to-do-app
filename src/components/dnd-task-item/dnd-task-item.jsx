@@ -1,6 +1,15 @@
 import { Draggable } from "react-beautiful-dnd";
+import { getDate, getShortTitle } from "../../utils/const";
 
 function DndTaskItem({ item, index }) {
+
+  const getCheckedTasksNumber = (tasks) => {
+    if (!tasks) {
+      return 0;
+    }
+    const checkedTasks = tasks.filter(task => task.done === true);
+    return checkedTasks.length;
+  }
 
   return (
     <Draggable key={item.id} draggableId={item.id} index={index}>
@@ -28,7 +37,7 @@ function DndTaskItem({ item, index }) {
               <div className="task__content">
                 <h3 className="task__title">
                   <a href="#" className="task__title-link" >
-                    {item.title}
+                    {getShortTitle(item.title)}
                   </a>
                 </h3>
               </div>
@@ -44,7 +53,7 @@ function DndTaskItem({ item, index }) {
                   )}
                   {!!item.subtasks.length && (
                     <div className="footer__icon">
-                      <span>0/{item.subtasks.length}</span>
+                      <span>{getCheckedTasksNumber(item.subtasks)}/{item.subtasks.length}</span>
                     </div>
                   )}
                   {!!item.comments.length && (
@@ -62,7 +71,7 @@ function DndTaskItem({ item, index }) {
                       <svg className="task-icon__svg" height="17" width="17">
                         <use href="/sprite.svg#dueDate"></use>
                       </svg>
-                      <span>{item.dueDate}</span>
+                      <span>&nbsp;{getDate(false, item.dueDate)}</span>
                     </div>
                   )}
                 </div>
