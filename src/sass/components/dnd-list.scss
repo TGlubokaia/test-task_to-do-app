@@ -1,8 +1,8 @@
 .dnd {
   display: flex;
-  max-width: 1200px; 
-  margin: 0 auto; 
-  justify-content: space-between; 
+  max-width: 1200px;
+  margin: 0 auto;
+  justify-content: space-between;
   border-radius: $border-radius;
   transition: color 0.4s ease;
 
@@ -13,7 +13,7 @@
 
 .dnd--ondrop {
   color: $grey;
-  
+
   svg {
     fill: $grey;
   }

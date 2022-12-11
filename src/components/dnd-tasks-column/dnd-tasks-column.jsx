@@ -16,7 +16,8 @@ function DndTasksColumn({ columnId, column }) {
                 background: snapshot.isDraggingOver
                   ? 'rgb(144, 136, 212)'
                   : 'rgb(222, 222, 222)',
-              }}>
+              }}
+            >
               {column.items.map((item, index) => {
                 return <DndTaskItem item={item} index={index} key={item.id} />;
               })}

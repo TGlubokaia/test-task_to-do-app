@@ -1,5 +1,8 @@
 import { useParams, Link } from 'react-router-dom';
 import DndTasksList from '../dnd-tasks-list/dnd-tasks-list';
+import TaskFormModal from '../task-form-modal/task-form-modal';
+import TaskInfoModal from '../task-info-modal/task-info-modal';
+import TaskSearchModal from '../task-search-modal/task-search-modal';
 
 function TasksScreen() {
   const params = useParams();
@@ -20,6 +23,9 @@ function TasksScreen() {
 
         <DndTasksList project={project} />
       </div>
+      <TaskFormModal show={false} />
+      <TaskInfoModal show={false} />
+      <TaskSearchModal show={false} />
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { initialColumns } from '../../mocks/tasks';
 const onDragStart = () => {
   const container = document.querySelector('.dnd');
   container.classList.add('dnd--ondrop');
-}
+};
 
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
