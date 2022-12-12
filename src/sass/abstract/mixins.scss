@@ -1,0 +1,18 @@
+@mixin input {
+  border-radius: $border-radius;
+  border: 2px solid $grey;
+  transition: border-color 0.3s ease;
+
+  &:hover {
+    border: 2px solid $dark-grey;
+  }
+
+  &::selection {
+    background-color: $main-purple;
+    color: $white;
+  }
+
+  &::placeholder {
+    color: $grey;
+  }
+}

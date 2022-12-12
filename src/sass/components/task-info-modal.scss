@@ -1,0 +1,15 @@
+.info-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+}
+
+.info-field__info {
+  padding: $padding;
+  border-radius: $border-radius;
+  border: 2px solid $grey;
+}
+
+.info-field__priority-info {
+  display: flex;
+}

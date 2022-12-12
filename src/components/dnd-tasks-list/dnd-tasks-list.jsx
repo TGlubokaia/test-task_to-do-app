@@ -49,7 +49,7 @@ const onDragEnd = (result, columns, setColumns) => {
   container.classList.remove('dnd--ondrop');
 };
 
-function DndTaskList({ project }) {
+function DndTaskList({ project, handleShowTaskInfo }) {
   const tasks = project.tasks;
 
   for (let columnId of Object.keys(initialColumns)) {
@@ -63,8 +63,7 @@ function DndTaskList({ project }) {
   return (
     <DragDropContext
       onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
-      onDragStart={onDragStart}
-    >
+      onDragStart={onDragStart}>
       <div className='dnd'>
         {Object.entries(columns).map(([columnId, column]) => {
           return (
@@ -72,6 +71,7 @@ function DndTaskList({ project }) {
               columnId={columnId}
               column={column}
               key={columnId}
+              handleShowTaskInfo={handleShowTaskInfo}
             />
           );
         })}

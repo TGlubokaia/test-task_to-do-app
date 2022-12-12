@@ -1,4 +1,5 @@
 @import './abstract/variables.scss';
+@import './abstract/mixins.scss';
 
 @import './base/base.scss';
 
@@ -11,3 +12,6 @@
 @import './components/dnd-list.scss';
 @import './components/dnd-column.scss';
 @import './components/dnd-task-item.scss';
+@import './components/task-item.scss';
+@import './components/task-info-modal.scss';
+@import './components/task-form-modal.scss';

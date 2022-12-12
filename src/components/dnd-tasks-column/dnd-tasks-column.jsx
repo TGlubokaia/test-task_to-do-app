@@ -1,7 +1,7 @@
 import { Droppable } from 'react-beautiful-dnd';
 import DndTaskItem from '../dnd-task-item/dnd-task-item';
 
-function DndTasksColumn({ columnId, column }) {
+function DndTasksColumn({ columnId, column, handleShowTaskInfo }) {
   return (
     <div className='dnd__column' key={columnId}>
       <h2 className='column__title'>{column.name.toUpperCase()}</h2>
@@ -16,10 +16,16 @@ function DndTasksColumn({ columnId, column }) {
                 background: snapshot.isDraggingOver
                   ? 'rgb(144, 136, 212)'
                   : 'rgb(222, 222, 222)',
-              }}
-            >
+              }}>
               {column.items.map((item, index) => {
-                return <DndTaskItem item={item} index={index} key={item.id} />;
+                return (
+                  <DndTaskItem
+                    item={item}
+                    index={index}
+                    key={item.id}
+                    handleShowTaskInfo={handleShowTaskInfo}
+                  />
+                );
               })}
               {provided.placeholder}
             </div>

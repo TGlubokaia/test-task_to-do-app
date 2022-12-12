@@ -1,7 +1,7 @@
 import { Draggable } from 'react-beautiful-dnd';
 import { getDate, getShortTitle } from '../../utils/const';
 
-function DndTaskItem({ item, index }) {
+function DndTaskItem({ item, index, handleShowTaskInfo }) {
   const getCheckedTasksNumber = (tasks) => {
     if (!tasks) {
       return 0;
@@ -22,20 +22,21 @@ function DndTaskItem({ item, index }) {
             style={{
               color: snapshot.isDragging && 'black',
               ...provided.draggableProps.style,
-            }}
-          >
+            }}>
             <div className='task__container'>
               <header className='task__header'>
                 <span className='task__number'>#{item.id}</span>
                 <div
-                  className={`task__priority task__priority--${item.priority}`}
-                >
+                  className={`task__priority task__priority--${item.priority}`}>
                   <span>{item.priority}</span>
                 </div>
               </header>
               <div className='task__content'>
                 <h3 className='task__title'>
-                  <a href='#' className='task__title-link'>
+                  <a
+                    href='#'
+                    className='task__title-link'
+                    onClick={() => handleShowTaskInfo(item)}>
                     {getShortTitle(item.title)}
                   </a>
                 </h3>

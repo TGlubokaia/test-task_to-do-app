@@ -1,0 +1,30 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 0.8rem;
+}
+
+.form-group__name {
+  margin-bottom: 0.3rem;
+}
+
+.form-group__input {
+  @include input;
+  display: flex;
+  width: 100%;
+  padding: $padding;
+  color: $black;
+}
+
+.form-group__input-file:hover {
+  border: 2px solid $red;
+  cursor: not-allowed;
+}
+
+.form-group__subtasks-list {
+  padding-top: $padding;
+  padding-bottom: $padding;
+}
