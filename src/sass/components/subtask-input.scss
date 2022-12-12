@@ -1,0 +1,24 @@
+.subtask-form {
+  display: flex;
+}
+
+.subtask-form > *:not(:last-child) {
+  margin-right: 1rem;
+}
+
+.subtask-form__done-label {
+  @include input;
+
+  color: $dark-purple;
+}
+
+.subtask__text-input {
+  flex-grow: 1;
+  border-radius: $border-radius;
+}
+
+.subtask__btn:disabled {
+  background-color: $grey;
+  color: $dark-grey;
+  cursor: not-allowed;
+}

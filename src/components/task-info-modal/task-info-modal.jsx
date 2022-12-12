@@ -1,16 +1,29 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import TaskHeader from '../task-header/task-header';
+import SubtaskItem from '../subtask-item/subtask-item';
 import {
   getDate,
   getDuration,
   setVisuallyHiddenClass,
 } from '../../utils/const';
 
-function TaskInfoModal({ show, task, onClose }) {
+function TaskInfoModal({ show, task, onClose, project }) {
   const handleKeyDown = (event) => {
     if (event.code === 'Escape') {
       onClose();
     }
+  };
+
+  const handleSubtaskChange = (event, id) => {
+    const index = task.subtasks.findIndex((task) => task.id === id);
+    const subtask = task.subtasks[index];
+    subtask.done = event.target.checked;
+    task.subtasks.splice(index, 1, subtask);
+    const taskIndex = project.tasks.findIndex((task) => task.id === id);
+    project.tasks.splice(taskIndex, 1, task);
+    const newProject = JSON.stringify(project);
+    localStorage.setItem(`${project.id}`, newProject);
+    console.log(localStorage);
   };
 
   useEffect(() => {
@@ -77,7 +90,16 @@ function TaskInfoModal({ show, task, onClose }) {
             </div>
             <div className='info-field info-field__subTasks'>
               <p className='info-field__name'>subtasks</p>
-              <div className='info-field__info info-field__subTasks'></div>
+              <div className='info-field__info info-field__subTasks'>
+                {!!task.subtasks.length &&
+                  task.subtasks.map((task) => (
+                    <SubtaskItem
+                      task={task}
+                      onChange={handleSubtaskChange}
+                      key={task.id}
+                    />
+                  ))}
+              </div>
             </div>
             <div className='info-field info-field__comments'>
               <p className='info-field__name'>comments</p>

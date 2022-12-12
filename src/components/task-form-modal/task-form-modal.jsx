@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import TaskHeader from '../task-header/task-header';
-import { setVisuallyHiddenClass } from '../../utils/const';
+import { setVisuallyHiddenClass, getUniqueId } from '../../utils/const';
+import SubtaskItem from '../subtask-item/subtask-item';
+import SubtaskInput from '../subtask-input/subtask-input';
 
 function TaskFormModal({ show, onClose, project, id }) {
+  const taskId = getUniqueId();
+
   const data = {
-    id: '1df1',
+    id: taskId,
     title: '',
     description: '',
     priority: 'low',
@@ -17,10 +21,18 @@ function TaskFormModal({ show, onClose, project, id }) {
     comments: [],
   };
 
+  const initialState = {
+    id: '',
+    content: '',
+    done: false,
+  };
+
   const [formData, setFormData] = useState(data);
+  const [subtaskInput, setSubtaskInput] = useState(initialState);
 
   const handleClose = () => {
     setFormData(data);
+    setSubtaskInput(initialState);
     onClose();
   };
 
@@ -34,7 +46,6 @@ function TaskFormModal({ show, onClose, project, id }) {
     event.preventDefault();
     const creationDate = dayjs().format();
     project.tasks.push({ ...formData, date: creationDate });
-    console.log(project.tasks[project.tasks.length - 1]);
     const newProject = JSON.stringify(project);
     localStorage.setItem(`${id}`, newProject);
     handleClose();
@@ -44,6 +55,24 @@ function TaskFormModal({ show, onClose, project, id }) {
     const name = event.target.name;
     const value = event.target.value;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const addSubtask = (subtask) => {
+    const id = getUniqueId();
+    subtask.id = id;
+    const currentSubtasks = [...formData.subtasks];
+    currentSubtasks.push(subtask);
+    setFormData({ ...formData, subtasks: currentSubtasks });
+    setSubtaskInput(initialState);
+  };
+
+  const handleSubtaskChange = (event, id) => {
+    const task = { ...formData };
+    const index = task.subtasks.findIndex((task) => task.id === id);
+    const subtask = task.subtasks[index];
+    subtask.done = event.target.checked;
+    task.subtasks.splice(index, 1, subtask);
+    setFormData(task);
   };
 
   useEffect(() => {
@@ -162,8 +191,22 @@ function TaskFormModal({ show, onClose, project, id }) {
             <div className='form-group'>
               <p className='form-group__name'>subtasks</p>
 
-              <div className='form-group__field'></div>
-              <section className='form-group__subtasks-list'></section>
+              <div className='form-group__field'>
+                <SubtaskInput
+                  addSubtask={addSubtask}
+                  subtaskInput={subtaskInput}
+                  handleInput={setSubtaskInput}
+                />
+              </div>
+              <section className='form-group__subtasks-list'>
+                {formData.subtasks.map((task) => (
+                  <SubtaskItem
+                    task={task}
+                    onChange={handleSubtaskChange}
+                    key={task.id}
+                  />
+                ))}
+              </section>
             </div>
 
             <button className='form__btn btn-submit btn'>SAVE</button>

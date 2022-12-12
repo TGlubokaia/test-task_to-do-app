@@ -65,6 +65,7 @@ function TasksScreen() {
         show={showTaskInfo}
         task={taskInfo}
         onClose={() => handleModalClose(() => setShowTaskInfo(false))}
+        project={project}
         id={projectId}
       />
       <TaskSearchModal show={false} />

@@ -37,10 +37,16 @@ const setVisuallyHiddenClass = (show) => {
   return;
 };
 
+const getUniqueId = () => {
+  const number = new Date().getTime();
+  return number.toString().slice();
+};
+
 export {
   AppRoute,
   getDate,
   getDuration,
   getShortTitle,
   setVisuallyHiddenClass,
+  getUniqueId,
 };

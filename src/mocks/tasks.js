@@ -8,7 +8,7 @@ const tasks1 = [
     priority: 'low',
     date: '',
     dueDate: '',
-    files: [1, 2, 3],
+    files: [],
     subtasks: [],
     comments: [],
   },
@@ -21,7 +21,7 @@ const tasks1 = [
     date: '',
     dueDate: '',
     files: [],
-    subtasks: [1, 2, 3],
+    subtasks: [],
     comments: [],
   },
   {
@@ -33,7 +33,7 @@ const tasks1 = [
     date: '',
     dueDate: '1',
     files: [1, 2, 3],
-    subtasks: [1, 2, 3],
+    subtasks: [],
     comments: [1, 2, 3],
   },
   {
@@ -70,7 +70,7 @@ const tasks1 = [
     date: '',
     dueDate: '',
     files: [],
-    subtasks: [1, 2, 3],
+    subtasks: [],
     comments: [],
   },
   {
@@ -82,7 +82,7 @@ const tasks1 = [
     date: '',
     dueDate: '',
     files: [1, 2, 3],
-    subtasks: [1, 2, 3],
+    subtasks: [],
     comments: [],
   },
   {
@@ -94,7 +94,7 @@ const tasks1 = [
     date: '',
     dueDate: '',
     files: [],
-    subtasks: [1, 2, 3],
+    subtasks: [],
     comments: [1, 2, 3],
   },
   {
@@ -118,7 +118,7 @@ const tasks1 = [
     date: '',
     dueDate: '1',
     files: [],
-    subtasks: [1, 2, 3],
+    subtasks: [],
     comments: [],
   },
 ];

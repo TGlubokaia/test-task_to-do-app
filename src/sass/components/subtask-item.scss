@@ -1,0 +1,18 @@
+.subtask-item {
+  display: flex;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+
+  & div {
+    display: flex;
+  }
+}
+
+.subtask-item__done-label {
+  color: transparent;
+}
+
+.subtask-item__text {
+  display: flex;
+  align-items: center;
+}

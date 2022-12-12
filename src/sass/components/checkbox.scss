@@ -1,0 +1,22 @@
+.done-label {
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  vertical-align: center;
+  cursor: pointer;
+}
+
+.done-label::before {
+  content: '';
+  width: 17px;
+  height: 17px;
+  background-color: transparent;
+  background: url('../../img/circle.png') no-repeat;
+  background-size: 17px 15px;
+  margin-right: 10px;
+}
+
+.done-input:checked + .done-label::before {
+  background-image: url('../../img/check.png');
+}
