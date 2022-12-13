@@ -8,7 +8,7 @@ const onDragStart = () => {
   container.classList.add('dnd--ondrop');
 };
 
-const onDragEnd = (result, columns, setColumns) => {
+const onDragEnd = (result, columns, setColumns, project) => {
   if (!result.destination) return;
   const { source, destination } = result;
 
@@ -31,6 +31,11 @@ const onDragEnd = (result, columns, setColumns) => {
         items: destItems,
       },
     });
+
+    const taskIndex = project.tasks.findIndex((task) => task.id === removed.id);
+    project.tasks.splice(taskIndex, 1, removed);
+    const newProject = JSON.stringify(project);
+    localStorage.setItem(`${project.id}`, newProject);
   } else {
     const column = columns[source.droppableId];
     const copiedItems = [...column.items];
@@ -62,7 +67,7 @@ function DndTaskList({ project, handleShowTaskInfo }) {
 
   return (
     <DragDropContext
-      onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+      onDragEnd={(result) => onDragEnd(result, columns, setColumns, project)}
       onDragStart={onDragStart}>
       <div className='dnd'>
         {Object.entries(columns).map(([columnId, column]) => {

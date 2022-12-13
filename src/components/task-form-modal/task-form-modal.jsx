@@ -5,9 +5,7 @@ import { setVisuallyHiddenClass, getUniqueId } from '../../utils/const';
 import SubtaskItem from '../subtask-item/subtask-item';
 import SubtaskInput from '../subtask-input/subtask-input';
 
-function TaskFormModal({ show, onClose, project, id }) {
-  const taskId = getUniqueId();
-
+function TaskFormModal({ show, onClose, project, projectId, taskId }) {
   const data = {
     id: taskId,
     title: '',
@@ -47,7 +45,7 @@ function TaskFormModal({ show, onClose, project, id }) {
     const creationDate = dayjs().format();
     project.tasks.push({ ...formData, date: creationDate });
     const newProject = JSON.stringify(project);
-    localStorage.setItem(`${id}`, newProject);
+    localStorage.setItem(`${projectId}`, newProject);
     handleClose();
   };
 

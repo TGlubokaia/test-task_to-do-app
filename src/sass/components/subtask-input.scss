@@ -12,13 +12,11 @@
   color: $dark-purple;
 }
 
-.subtask__text-input {
+.subtask-form__text-input {
   flex-grow: 1;
   border-radius: $border-radius;
 }
 
-.subtask__btn:disabled {
-  background-color: $grey;
-  color: $dark-grey;
-  cursor: not-allowed;
+.subtask-form__btn:disabled {
+  @include disabled;
 }

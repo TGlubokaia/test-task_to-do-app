@@ -4,16 +4,18 @@ import DndTasksList from '../dnd-tasks-list/dnd-tasks-list';
 import TaskFormModal from '../task-form-modal/task-form-modal';
 import TaskInfoModal from '../task-info-modal/task-info-modal';
 import TaskSearchModal from '../task-search-modal/task-search-modal';
+import { getUniqueId } from '../../utils/const';
 
 function TasksScreen() {
   const params = useParams();
   const projectId = params.id;
+  const taskId = getUniqueId();
 
   const project = JSON.parse(localStorage.getItem(`${projectId}`));
 
   const [showTaskInfo, setShowTaskInfo] = useState(false);
   const [showTaskForm, setShowTaskForm] = useState(false);
-  const [taskInfo, setTaskInfo] = useState(null);
+  const [currentTaskId, setTaskId] = useState(null);
 
   const handleModalOpen = (cb) => {
     document.body.style.overflow = 'hidden';
@@ -25,8 +27,8 @@ function TasksScreen() {
     cb();
   };
 
-  const handleTaskInfoOpen = (task) => {
-    setTaskInfo(task);
+  const handleTaskInfoOpen = (id) => {
+    setTaskId(id);
     handleModalOpen(() => setShowTaskInfo(true));
   };
 
@@ -57,16 +59,15 @@ function TasksScreen() {
       <TaskFormModal
         show={showTaskForm}
         onClose={() => handleModalClose(() => setShowTaskForm(false))}
-        handleShowTaskInfo={setShowTaskInfo}
         project={project}
-        id={projectId}
+        projectId={projectId}
+        taskId={taskId}
       />
       <TaskInfoModal
         show={showTaskInfo}
-        task={taskInfo}
+        taskId={currentTaskId}
         onClose={() => handleModalClose(() => setShowTaskInfo(false))}
-        project={project}
-        id={projectId}
+        projectId={projectId}
       />
       <TaskSearchModal show={false} />
     </div>

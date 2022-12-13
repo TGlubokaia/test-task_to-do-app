@@ -1,13 +1,23 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import TaskHeader from '../task-header/task-header';
 import SubtaskItem from '../subtask-item/subtask-item';
+import Comment from '../comment/comment';
+import CommentInput from '../comment-input/comment-input';
 import {
+  commentData,
   getDate,
   getDuration,
   setVisuallyHiddenClass,
+  getUniqueId,
 } from '../../utils/const';
 
-function TaskInfoModal({ show, task, onClose, project }) {
+function TaskInfoModal({ show, taskId, onClose, projectId }) {
+  const project = JSON.parse(localStorage.getItem(`${projectId}`));
+  const task = project.tasks.find((task) => task.id === taskId);
+
+  const [currentTask, setTask] = useState(task);
+  const [commentInput, setCommentInput] = useState(commentData);
+
   const handleKeyDown = (event) => {
     if (event.code === 'Escape') {
       onClose();
@@ -15,15 +25,37 @@ function TaskInfoModal({ show, task, onClose, project }) {
   };
 
   const handleSubtaskChange = (event, id) => {
-    const index = task.subtasks.findIndex((task) => task.id === id);
-    const subtask = task.subtasks[index];
+    const newTask = { ...task };
+    const index = newTask.subtasks.findIndex((task) => task.id === id);
+    const subtask = newTask.subtasks[index];
     subtask.done = event.target.checked;
-    task.subtasks.splice(index, 1, subtask);
-    const taskIndex = project.tasks.findIndex((task) => task.id === id);
-    project.tasks.splice(taskIndex, 1, task);
+    newTask.subtasks.splice(index, 1, subtask);
+    setTask(newTask);
+    return newTask;
+  };
+
+  const handleSubtaskUpdate = (event, id) => {
+    const updatedTask = handleSubtaskChange(event, id);
+    const taskIndex = project.tasks.findIndex(
+      (task) => task.id === updatedTask.id
+    );
+    project.tasks.splice(taskIndex, 1, updatedTask);
     const newProject = JSON.stringify(project);
     localStorage.setItem(`${project.id}`, newProject);
-    console.log(localStorage);
+  };
+
+  const addComment = (comment) => {
+    const id = getUniqueId();
+    comment.id = id;
+    const comments = [...task.comments];
+    comments.push(comment);
+    const newTask = { ...task };
+    newTask.comments = comments;
+    const taskIndex = project.tasks.findIndex((task) => task.id === newTask.id);
+    project.tasks.splice(taskIndex, 1, newTask);
+    const newProject = JSON.stringify(project);
+    localStorage.setItem(`${project.id}`, newProject);
+    setCommentInput(commentData);
   };
 
   useEffect(() => {
@@ -31,7 +63,7 @@ function TaskInfoModal({ show, task, onClose, project }) {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  });
 
   if (task) {
     return (
@@ -69,13 +101,13 @@ function TaskInfoModal({ show, task, onClose, project }) {
             <div className='info-field info-field__date'>
               <p className='info-field__name'>created</p>
               <p className='info-field__info info-field__date-info'>
-                {!!task && getDate(true, task.date)}
+                {getDate(true, task.date)}
               </p>
             </div>
             <div className='info-field info-field__duration'>
               <p className='info-field__name'>duration</p>
               <p className='info-field__info info-field__duration-info'>
-                {!!task && getDuration(task.date)}
+                {getDuration(task.date)}
               </p>
             </div>
             <div className='info-field info-field__dueDate'>
@@ -95,7 +127,7 @@ function TaskInfoModal({ show, task, onClose, project }) {
                   task.subtasks.map((task) => (
                     <SubtaskItem
                       task={task}
-                      onChange={handleSubtaskChange}
+                      onChange={handleSubtaskUpdate}
                       key={task.id}
                     />
                   ))}
@@ -103,7 +135,23 @@ function TaskInfoModal({ show, task, onClose, project }) {
             </div>
             <div className='info-field info-field__comments'>
               <p className='info-field__name'>comments</p>
-              <div className='info-field__info info-field__comments'></div>
+              <CommentInput
+                show={true}
+                commentInput={commentInput}
+                addComment={addComment}
+                handleInput={setCommentInput}
+              />
+              <div className='info-field__info info-field__comments'>
+                {!!task.comments.length &&
+                  task.comments.map((comment) => (
+                    <Comment
+                      comment={comment}
+                      key={comment.id}
+                      taskId={taskId}
+                      projectId={projectId}
+                    />
+                  ))}
+              </div>
             </div>
           </div>
           <footer className='task-info-modal__footer modal-footer footer'></footer>

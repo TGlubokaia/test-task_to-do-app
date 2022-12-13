@@ -1,0 +1,27 @@
+.comment {
+  padding-left: 0.4rem;
+  border-left: 2px solid $light-purple;
+}
+
+.comment__item {
+  display: flex;
+  padding: 0.3rem;
+  margin-bottom: 0.3rem;
+  border-radius: $border-radius;
+  border: 2px solid $grey;
+}
+
+.comment__text {
+  flex-grow: 1;
+}
+
+.comment__btn {
+  padding: 0.5rem;
+  align-self: flex-start;
+  background-color: $light-purple;
+  color: $dark-purple;
+
+  &:hover {
+    color: $white;
+  }
+}

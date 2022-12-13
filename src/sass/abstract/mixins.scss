@@ -16,3 +16,9 @@
     color: $grey;
   }
 }
+
+@mixin disabled {
+  background-color: $grey;
+  color: $dark-grey;
+  cursor: not-allowed;
+}

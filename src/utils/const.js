@@ -6,6 +6,12 @@ const AppRoute = {
   PROJECT: '/project/:id',
 };
 
+const commentData = {
+  id: null,
+  text: '',
+  replies: [],
+};
+
 const getDate = (fulldate, date) => {
   if (!date) {
     return;
@@ -42,11 +48,24 @@ const getUniqueId = () => {
   return number.toString().slice();
 };
 
+const getNumberOfComments = (comments) => {
+  let sum = 0;
+  if (comments.length) {
+    sum += comments.length;
+    for (let comment of comments) {
+      sum += getNumberOfComments(comment.replies);
+    }
+  }
+  return sum;
+};
+
 export {
   AppRoute,
+  commentData,
   getDate,
   getDuration,
   getShortTitle,
   setVisuallyHiddenClass,
   getUniqueId,
+  getNumberOfComments,
 };

@@ -1,5 +1,3 @@
-import React from 'react';
-
 function SubtaskInput({ addSubtask, subtaskInput, handleInput }) {
   const handleInputChange = (event) => {
     const value =
@@ -30,8 +28,8 @@ function SubtaskInput({ addSubtask, subtaskInput, handleInput }) {
         done
       </label>
       <input
-        className='subtask__text-input form-group__input'
-        placeholder='Subtask title'
+        className='subtask-form__text-input form-group__input'
+        placeholder='Add title'
         type='text'
         id='content'
         name='content'
@@ -41,7 +39,7 @@ function SubtaskInput({ addSubtask, subtaskInput, handleInput }) {
       />
 
       <button
-        className='subtask__btn btn'
+        className='subtask-form__btn btn'
         type='button'
         onClick={handleSubmit}
         disabled={!subtaskInput.content.length ? true : false}>
