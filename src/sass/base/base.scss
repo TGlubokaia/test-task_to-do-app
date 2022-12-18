@@ -40,10 +40,14 @@ body {
 input,
 textarea,
 select,
-button,
-a:focus {
+button:focus {
   outline: none;
   border: 2px solid $black;
+}
+
+a:focus {
+  outline: none;
+  color: $blue;
 }
 
 textarea {

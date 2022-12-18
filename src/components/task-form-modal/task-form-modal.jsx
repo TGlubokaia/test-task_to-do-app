@@ -4,6 +4,7 @@ import TaskHeader from '../task-header/task-header';
 import { setVisuallyHiddenClass, getUniqueId } from '../../utils/const';
 import SubtaskItem from '../subtask-item/subtask-item';
 import SubtaskInput from '../subtask-input/subtask-input';
+// import { addTask } from '../../services/api';
 
 function TaskFormModal({ show, onClose, project, projectId, taskId }) {
   const data = {
@@ -43,9 +44,8 @@ function TaskFormModal({ show, onClose, project, projectId, taskId }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const creationDate = dayjs().format();
-    project.tasks.push({ ...formData, date: creationDate });
-    const newProject = JSON.stringify(project);
-    localStorage.setItem(`${projectId}`, newProject);
+    const newTask = { ...formData, date: creationDate };
+    // addTask(project, newTask);
     handleClose();
   };
 

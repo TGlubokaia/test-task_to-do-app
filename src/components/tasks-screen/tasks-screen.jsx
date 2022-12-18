@@ -1,31 +1,38 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProjects } from '../../store/selectors';
+import { ActionCreator } from '../../store/action';
 import DndTasksList from '../dnd-tasks-list/dnd-tasks-list';
 import TaskFormModal from '../task-form-modal/task-form-modal';
 import TaskInfoModal from '../task-info-modal/task-info-modal';
 import TaskSearchModal from '../task-search-modal/task-search-modal';
 import { getUniqueId } from '../../utils/const';
 
+const handleModalOpen = (cb) => {
+  document.body.style.overflow = 'hidden';
+  cb();
+};
+
+const handleModalClose = (cb) => {
+  document.body.style.overflow = 'auto';
+  cb();
+};
+
 function TasksScreen() {
   const params = useParams();
   const projectId = params.id;
-  const taskId = getUniqueId();
 
-  const project = JSON.parse(localStorage.getItem(`${projectId}`));
+  const dispatch = useDispatch();
+  const stateProjects = useSelector(getProjects);
+  dispatch(ActionCreator.addProjectId(projectId));
+
+  const project = { ...stateProjects[projectId] };
+  const taskId = getUniqueId();
 
   const [showTaskInfo, setShowTaskInfo] = useState(false);
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [currentTaskId, setTaskId] = useState(null);
-
-  const handleModalOpen = (cb) => {
-    document.body.style.overflow = 'hidden';
-    cb();
-  };
-
-  const handleModalClose = (cb) => {
-    document.body.style.overflow = 'auto';
-    cb();
-  };
 
   const handleTaskInfoOpen = (id) => {
     setTaskId(id);

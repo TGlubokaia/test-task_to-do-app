@@ -1,16 +1,39 @@
-import { setVisuallyHiddenClass } from '../../utils/const';
+import { setVisuallyHiddenClass, getUniqueId } from '../../utils/const';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProjectId } from '../../store/selectors';
+import { ActionCreator } from '../../store/action';
 
-function CommentInput({ show, addComment, commentInput, handleInput }) {
+function CommentInput({
+  show,
+  handleInput,
+  commentInput,
+  handleClose,
+  category,
+  root,
+  taskId,
+}) {
+  const stateProjectId = useSelector(getProjectId);
+  const dispatch = useDispatch();
+
   const handleInputChange = (event) => {
     const value = event.target.value;
     handleInput({ ...commentInput, [event.target.name]: value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
     if (!commentInput.text.length) {
       return;
     }
-    addComment(commentInput);
+    const id = getUniqueId();
+    const reply = {
+      ...commentInput,
+      id: id,
+      category: category,
+      level: category + 1,
+    };
+    dispatch(ActionCreator.addComment([reply, stateProjectId, taskId, root]));
+    handleClose();
   };
 
   return (
@@ -23,6 +46,7 @@ function CommentInput({ show, addComment, commentInput, handleInput }) {
         name='text'
         maxLength='40'
         onChange={handleInputChange}
+        onBlur={commentInput.text ? () => {} : handleClose}
         value={commentInput.text}
       />
 

@@ -10,6 +10,8 @@ const commentData = {
   id: null,
   text: '',
   replies: [],
+  level: null,
+  category: null,
 };
 
 const getDate = (fulldate, date) => {
@@ -40,7 +42,7 @@ const setVisuallyHiddenClass = (show) => {
   if (!show) {
     return 'visually-hidden';
   }
-  return;
+  return '';
 };
 
 const getUniqueId = () => {

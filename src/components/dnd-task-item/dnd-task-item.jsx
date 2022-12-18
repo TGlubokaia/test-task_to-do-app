@@ -1,5 +1,5 @@
 import { Draggable } from 'react-beautiful-dnd';
-import { getDate, getShortTitle, getNumberOfComments } from '../../utils/const';
+import { getDate, getShortTitle } from '../../utils/const';
 
 function DndTaskItem({ item, index, handleShowTaskInfo }) {
   const getCheckedTasksNumber = (tasks) => {
@@ -64,7 +64,7 @@ function DndTaskItem({ item, index, handleShowTaskInfo }) {
                       <svg className='task-icon__svg' height='17' width='17'>
                         <use href='/sprite.svg#comments'></use>
                       </svg>
-                      <span>{getNumberOfComments(item.comments)}</span>
+                      <span>{}</span>
                     </div>
                   )}
                 </div>
