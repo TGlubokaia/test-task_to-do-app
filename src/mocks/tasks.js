@@ -111,7 +111,6 @@ const projects = {
   '01': {
     id: '01',
     title: 'Project 1',
-    allTasks: ['1', '2', '3'],
     data: tasks,
   },
 };

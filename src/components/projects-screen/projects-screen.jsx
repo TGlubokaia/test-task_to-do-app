@@ -4,7 +4,9 @@ import { getProjects } from '../../store/selectors';
 
 function ProjectsScreen() {
   const stateProjects = useSelector(getProjects);
-  const projectsList = Object.keys(stateProjects).map((key) => stateProjects[key]);
+  const projectsList = Object.keys(stateProjects).map(
+    (key) => stateProjects[key]
+  );
 
   return (
     <div className='project screen'>

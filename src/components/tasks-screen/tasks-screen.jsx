@@ -59,7 +59,7 @@ function TasksScreen() {
         </nav>
 
         <DndTasksList
-          project={project}
+          projectId={projectId}
           handleShowTaskInfo={handleTaskInfoOpen}
         />
       </div>
