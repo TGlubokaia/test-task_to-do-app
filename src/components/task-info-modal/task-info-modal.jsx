@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import TaskHeader from '../task-header/task-header';
 import SubtaskItem from '../subtask-item/subtask-item';
 import CommentsList from '../comments-list/comments-list';
 import { updateData } from '../../services/api';
+import { ActionCreator } from '../../store/action';
 import { getProjectId, getProjects, getEntity } from '../../store/selectors';
 import {
   getDate,
@@ -15,20 +16,25 @@ function TaskInfoModal({ show, taskId, onClose }) {
   const stateProjectId = useSelector(getProjectId);
   const stateProjects = useSelector(getProjects);
   const stateEntity = useSelector((state) => getEntity(state, stateProjectId));
+  const dispatch = useDispatch();
 
-  const [currentTask, setTask] = useState(null);
-
-  const handleClose = () => {
+  const handleUpdate = () => {
     const newProject = { ...stateProjects[stateProjectId] };
     newProject.data = stateEntity;
     updateData(newProject);
-    onClose();
   };
 
   const handleKeyDown = (event) => {
     if (event.code === 'Escape') {
-      handleClose();
+      onClose();
     }
+  };
+
+  const handleChange = (event, subtask) => {
+    const isChecked = event.target.checked;
+    subtask.done = isChecked;
+    dispatch(ActionCreator.toggleSubtask([subtask, stateProjectId, taskId]));
+    handleUpdate();
   };
 
   useEffect(() => {
@@ -42,30 +48,10 @@ function TaskInfoModal({ show, taskId, onClose }) {
     let project = { ...stateProjects[stateProjectId] };
     const task = project.data.tasks.byId[taskId];
 
-    const handleSubtaskChange = (event, id) => {
-      const newTask = { ...task };
-      const index = newTask.subtasks.findIndex((task) => task.id === id);
-      const subtask = newTask.subtasks[index];
-      subtask.done = event.target.checked;
-      newTask.subtasks.splice(index, 1, subtask);
-      setTask(newTask);
-      return newTask;
-    };
-
-    const handleSubtaskUpdate = (event, id) => {
-      const updatedTask = handleSubtaskChange(event, id);
-      const taskIndex = project.tasks.findIndex(
-        (task) => task.id === updatedTask.id
-      );
-      project.tasks.splice(taskIndex, 1, updatedTask);
-      const newProject = JSON.stringify(project);
-      localStorage.setItem(`${project.id}`, newProject);
-    };
-
     return (
       <div className={`modal task-info-modal ${setVisuallyHiddenClass(show)}`}>
         <div className='modal-container'>
-          <TaskHeader handleCloseBtn={handleClose} id={task.id} />
+          <TaskHeader handleCloseBtn={onClose} id={task.id} />
           <div className='task-info-modal__content modal-content'>
             <div className='info-field info-field__title'>
               <p className='info-field__name'>title</p>
@@ -123,7 +109,7 @@ function TaskInfoModal({ show, taskId, onClose }) {
                   task.subtasks.map((task) => (
                     <SubtaskItem
                       task={task}
-                      onChange={handleSubtaskUpdate}
+                      onChange={handleChange}
                       key={task.id}
                     />
                   ))}

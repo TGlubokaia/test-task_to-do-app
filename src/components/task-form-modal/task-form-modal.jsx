@@ -64,9 +64,9 @@ function TaskFormModal({ show, onClose, project, projectId, taskId }) {
     setSubtaskInput(initialState);
   };
 
-  const handleSubtaskChange = (event, id) => {
+  const handleSubtaskChange = (event, curentTask) => {
     const task = { ...formData };
-    const index = task.subtasks.findIndex((task) => task.id === id);
+    const index = task.subtasks.findIndex((task) => task.id === curentTask.id);
     const subtask = task.subtasks[index];
     subtask.done = event.target.checked;
     task.subtasks.splice(index, 1, subtask);

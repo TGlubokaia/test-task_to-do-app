@@ -3,6 +3,7 @@ const ActionType = {
   ADD_PROJECT_ID: 'project/addProjectId',
   ADD_COMMENT: 'comment/addComment',
   ADD_TASK: 'task/addTask',
+  TOGGLE_SUBTASK: 'subtask/toggleSubtask',
 };
 
 const ActionCreator = {
@@ -21,6 +22,10 @@ const ActionCreator = {
   addProjectId: (id) => ({
     type: ActionType.ADD_PROJECT_ID,
     payload: id,
+  }),
+  toggleSubtask: (subtask, projectId, taskId) => ({
+    type: ActionType.TOGGLE_SUBTASK,
+    payload: [subtask, projectId, taskId],
   }),
 };
 

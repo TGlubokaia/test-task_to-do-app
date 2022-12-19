@@ -98,6 +98,35 @@ const addComment = (state, payload) => {
   }
 };
 
+const toggleSubtask = (state, payload) => {
+  const [subtask, projectId, taskId] = payload;
+  const entity = 'entity' + projectId;
+
+  state = { ...state };
+  return (state = {
+    ...state,
+    [entity]: {
+      ...state[entity],
+      tasks: {
+        ...state[entity].tasks,
+        byId: {
+          ...state[entity].tasks.byId,
+          [taskId]: {
+            ...state[entity].tasks.byId[taskId],
+            subtasks: state[entity].tasks.byId[taskId].subtasks.map((task) => {
+              if (task.id === subtask.id) {
+                return subtask;
+              } else {
+                return task;
+              }
+            }),
+          },
+        },
+      },
+    },
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.LOAD_PROJECTS:
@@ -106,6 +135,8 @@ const reducer = (state = initialState, action) => {
       return addComment(state, ...action.payload);
     case ActionType.ADD_PROJECT_ID:
       return { ...state, projectId: action.payload };
+    case ActionType.TOGGLE_SUBTASK:
+      return toggleSubtask(state, ...action.payload);
     default:
       return state;
   }

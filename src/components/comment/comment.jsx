@@ -4,7 +4,7 @@ import { getProjectId, getEntity } from '../../store/selectors';
 import CommentInput from '../comment-input/comment-input';
 import { commentData } from '../../utils/const';
 
-function Comment({ comment, taskId }) {
+function Comment({ comment, taskId, handleUpdate }) {
   const stateProjectId = useSelector(getProjectId);
   const stateEntity = useSelector((state) => getEntity(state, stateProjectId));
 
@@ -35,6 +35,7 @@ function Comment({ comment, taskId }) {
         category={comment.level}
         root={comment}
         taskId={taskId}
+        handleUpdate={handleUpdate}
       />
       <div className='comment__container'>
         {!!comment.replies.length &&
@@ -43,6 +44,7 @@ function Comment({ comment, taskId }) {
               comment={stateEntity[comment.level].byId[id]}
               taskId={taskId}
               key={id}
+              handleUpdate={handleUpdate}
             />
           ))}
       </div>

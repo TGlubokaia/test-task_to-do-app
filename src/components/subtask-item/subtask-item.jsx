@@ -8,7 +8,7 @@ function SubtaskItem({ task, onChange }) {
           id={task.id}
           name='done'
           checked={task.done ? true : false}
-          onChange={(event) => onChange(event, task.id)}
+          onChange={(event) => onChange(event, task)}
         />
         <label
           className='subtask-item__done-label done-label'

@@ -68,9 +68,8 @@ const dataUpdate = (isDropped, columns, project, setIsDropped) => {
     Object.values(columns).map((column) =>
       column.items.map((item) => (order = order.concat([item.id])))
     );
-    console.log(order);
 
-    project.data.tasks.byIds = tasks;
+    project.data.tasks.byId = tasks;
     project.data.tasks.allIds = order;
     updateData(project);
     setIsDropped(false);
