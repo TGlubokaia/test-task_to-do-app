@@ -1,43 +1,31 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { updateTask } from '../../services/api';
+import { getProjectId, getProjects } from '../../store/selectors';
 import dayjs from 'dayjs';
 import TaskHeader from '../task-header/task-header';
-import { setVisuallyHiddenClass, getUniqueId } from '../../utils/const';
+import {
+  setVisuallyHiddenClass,
+  getUniqueId,
+  getInitialTaskData,
+  initialSubtaskState,
+} from '../../utils/const';
 import SubtaskItem from '../subtask-item/subtask-item';
 import SubtaskInput from '../subtask-input/subtask-input';
-// import { addTask } from '../../services/api';
 
-function TaskFormModal({ show, onClose, project, projectId, taskId }) {
-  const data = {
-    id: taskId,
-    title: '',
-    description: '',
-    priority: 'low',
-    status: 'queue',
-    dueDate: '',
-    files: [],
-    date: '',
-    subtasks: [],
-    comments: [],
-  };
+function TaskFormModal({ show, onClose, taskId, handleFormSubmit }) {
+  const stateProjectId = useSelector(getProjectId);
+  const stateProjects = useSelector(getProjects);
 
-  const initialState = {
-    id: '',
-    content: '',
-    done: false,
-  };
+  const project = { ...stateProjects[stateProjectId] };
+  const data = getInitialTaskData(taskId);
 
   const [formData, setFormData] = useState(data);
-  const [subtaskInput, setSubtaskInput] = useState(initialState);
-
-  const handleClose = () => {
-    setFormData(data);
-    setSubtaskInput(initialState);
-    onClose();
-  };
+  const [subtaskInput, setSubtaskInput] = useState(initialSubtaskState);
 
   const handleKeyDown = (event) => {
     if (event.code === 'Escape') {
-      handleClose();
+      onClose();
     }
   };
 
@@ -45,8 +33,9 @@ function TaskFormModal({ show, onClose, project, projectId, taskId }) {
     event.preventDefault();
     const creationDate = dayjs().format();
     const newTask = { ...formData, date: creationDate };
-    // addTask(project, newTask);
-    handleClose();
+    updateTask(project, newTask);
+    handleFormSubmit();
+    onClose();
   };
 
   const handleChange = (event) => {
@@ -61,7 +50,7 @@ function TaskFormModal({ show, onClose, project, projectId, taskId }) {
     const currentSubtasks = [...formData.subtasks];
     currentSubtasks.push(subtask);
     setFormData({ ...formData, subtasks: currentSubtasks });
-    setSubtaskInput(initialState);
+    setSubtaskInput(initialSubtaskState);
   };
 
   const handleSubtaskChange = (event, curentTask) => {
@@ -80,10 +69,15 @@ function TaskFormModal({ show, onClose, project, projectId, taskId }) {
     };
   }, []);
 
+  useEffect(() => {
+    setFormData(data);
+    setSubtaskInput(initialSubtaskState);
+  }, [show]);
+
   return (
     <div className={`modal task-form-modal ${setVisuallyHiddenClass(show)}`}>
       <div className='modal-container'>
-        <TaskHeader handleCloseBtn={handleClose} id={data.id} />
+        <TaskHeader handleCloseBtn={onClose} id={data.id} />
         <div className='task-form-modal__content modal-content'>
           <form
             className='form'

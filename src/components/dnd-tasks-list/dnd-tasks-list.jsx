@@ -77,11 +77,7 @@ const dataUpdate = (isDropped, columns, project, setIsDropped) => {
   return;
 };
 
-function DndTaskList({ projectId, handleShowTaskInfo }) {
-  const stateProjects = useSelector(getProjects);
-  const project = { ...stateProjects[projectId] };
-
-  const tasks = project.data.tasks;
+function DndTaskList({ project, handleShowTaskInfo, tasks }) {
   const tasksArray = tasks.allIds.map((id) => tasks.byId[id]);
 
   for (let columnId of Object.keys(initialColumns)) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getProjectId, getEntity, getProjects } from '../../store/selectors';
 import { updateData } from '../../services/api';
@@ -18,16 +18,16 @@ function CommentsList({ taskId }) {
   const handleUpdate = () => {
     const newProject = { ...stateProjects[stateProjectId] };
     newProject.data = stateEntity;
+
+    console.log('CommentsList handleUpdate stateEntity');
+    console.log(stateEntity);
+
     updateData(newProject);
   };
 
   const handleClose = () => {
     setCommentInput(commentData);
   };
-
-  useEffect(() => {
-    handleUpdate();
-  }, [stateEntity]);
 
   return (
     <React.Fragment>

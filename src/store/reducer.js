@@ -127,6 +127,26 @@ const toggleSubtask = (state, payload) => {
   });
 };
 
+const addTask = (state, payload) => {
+  const [projectId, task] = payload;
+  const entity = 'entity' + projectId;
+
+  return (state = {
+    ...state,
+    [entity]: {
+      ...state[entity],
+      tasks: {
+        ...state[entity].tasks,
+        byId: {
+          ...state[entity].tasks.byId,
+          [task.id]: task,
+        },
+        allIds: [...state[entity].tasks.allIds, task.id],
+      },
+    },
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.LOAD_PROJECTS:
@@ -137,6 +157,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, projectId: action.payload };
     case ActionType.TOGGLE_SUBTASK:
       return toggleSubtask(state, ...action.payload);
+    case ActionType.ADD_TASK:
+      return addTask(state, ...action.payload);
     default:
       return state;
   }

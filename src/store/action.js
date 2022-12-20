@@ -15,9 +15,9 @@ const ActionCreator = {
     type: ActionType.ADD_COMMENT,
     payload: [comment, projectId, taskId, root],
   }),
-  addTask: (task) => ({
+  addTask: (projectId, task) => ({
     type: ActionType.ADD_TASK,
-    payload: task,
+    payload: [projectId, task],
   }),
   addProjectId: (id) => ({
     type: ActionType.ADD_PROJECT_ID,

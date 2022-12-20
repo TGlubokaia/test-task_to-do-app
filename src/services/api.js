@@ -5,7 +5,13 @@ const updateData = (project) => {
 
 const updateTask = (project, task) => {
   project.data.tasks.byId[task.id] = task;
+  project.data.tasks.allIds.push(task.id);
   updateData(project);
 };
 
-export { updateData, updateTask };
+const getProject = (id) => {
+  const project = JSON.parse(localStorage.getItem(`${id}`));
+  return project;
+};
+
+export { updateData, updateTask, getProject };

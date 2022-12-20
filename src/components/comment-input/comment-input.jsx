@@ -34,7 +34,7 @@ function CommentInput({
       level: category + 1,
     };
     dispatch(ActionCreator.addComment([reply, stateProjectId, taskId, root]));
-    // handleUpdate();
+    handleUpdate();
     handleClose();
   };
 

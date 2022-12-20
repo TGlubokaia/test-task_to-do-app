@@ -21,6 +21,10 @@ function TaskInfoModal({ show, taskId, onClose }) {
   const handleUpdate = () => {
     const newProject = { ...stateProjects[stateProjectId] };
     newProject.data = stateEntity;
+
+    console.log('TaskInfoModal handleUpdate stateEntity');
+    console.log(stateEntity);
+
     updateData(newProject);
   };
 
@@ -34,7 +38,6 @@ function TaskInfoModal({ show, taskId, onClose }) {
     const isChecked = event.target.checked;
     subtask.done = isChecked;
     dispatch(ActionCreator.toggleSubtask([subtask, stateProjectId, taskId]));
-    handleUpdate();
   };
 
   useEffect(() => {
@@ -42,7 +45,7 @@ function TaskInfoModal({ show, taskId, onClose }) {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  });
+  }, [stateEntity]);
 
   if (show) {
     let project = { ...stateProjects[stateProjectId] };
@@ -117,7 +120,7 @@ function TaskInfoModal({ show, taskId, onClose }) {
             </div>
             <div className='info-field info-field__comments'>
               <p className='info-field__name'>comments</p>
-              <CommentsList taskId={taskId} />
+              <CommentsList taskId={taskId} handleUpdate={handleUpdate} />
             </div>
           </div>
           <footer className='task-info-modal__footer modal-footer footer'></footer>

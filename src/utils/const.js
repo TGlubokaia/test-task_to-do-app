@@ -14,6 +14,25 @@ const commentData = {
   category: null,
 };
 
+const initialSubtaskState = {
+  id: '',
+  content: '',
+  done: false,
+};
+
+const getInitialTaskData = (taskId) => ({
+  id: taskId,
+  title: '',
+  description: '',
+  priority: 'low',
+  status: 'queue',
+  dueDate: '',
+  files: [],
+  date: '',
+  subtasks: [],
+  comments: [],
+});
+
 const getDate = (fulldate, date) => {
   if (!date) {
     return;
@@ -64,10 +83,12 @@ const getNumberOfComments = (comments) => {
 export {
   AppRoute,
   commentData,
+  initialSubtaskState,
   getDate,
   getDuration,
   getShortTitle,
   setVisuallyHiddenClass,
   getUniqueId,
   getNumberOfComments,
+  getInitialTaskData,
 };
