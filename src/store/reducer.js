@@ -20,7 +20,6 @@ const getProjects = (projects, state = initialState) => {
     }
     return state;
   }
-  return state;
 };
 
 const addComment = (state, payload) => {

@@ -1,24 +1,32 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { updateTask } from '../../services/api';
-import { getProjectId, getProjects } from '../../store/selectors';
+import { useSelector, useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
+import { addTask } from '../../services/api';
+import { getProjectId, getProjects } from '../../store/selectors';
+import { fetchProjects } from '../../store/api-action';
 import TaskHeader from '../task-header/task-header';
+import SubtaskItem from '../subtask-item/subtask-item';
+import SubtaskInput from '../subtask-input/subtask-input';
 import {
   setVisuallyHiddenClass,
   getUniqueId,
   getInitialTaskData,
   initialSubtaskState,
 } from '../../utils/const';
-import SubtaskItem from '../subtask-item/subtask-item';
-import SubtaskInput from '../subtask-input/subtask-input';
 
-function TaskFormModal({ show, onClose, taskId, handleFormSubmit }) {
+function TaskFormModal({ show, onClose, taskId, task }) {
   const stateProjectId = useSelector(getProjectId);
   const stateProjects = useSelector(getProjects);
+  const dispatch = useDispatch();
 
   const project = { ...stateProjects[stateProjectId] };
-  const data = getInitialTaskData(taskId);
+  let data = null;
+
+  if (!task) {
+    data = getInitialTaskData(taskId);
+  } else {
+    data = task;
+  }
 
   const [formData, setFormData] = useState(data);
   const [subtaskInput, setSubtaskInput] = useState(initialSubtaskState);
@@ -33,8 +41,8 @@ function TaskFormModal({ show, onClose, taskId, handleFormSubmit }) {
     event.preventDefault();
     const creationDate = dayjs().format();
     const newTask = { ...formData, date: creationDate };
-    updateTask(project, newTask);
-    handleFormSubmit();
+    addTask(project, newTask);
+    dispatch(fetchProjects());
     onClose();
   };
 
@@ -77,7 +85,7 @@ function TaskFormModal({ show, onClose, taskId, handleFormSubmit }) {
   return (
     <div className={`modal task-form-modal ${setVisuallyHiddenClass(show)}`}>
       <div className='modal-container'>
-        <TaskHeader handleCloseBtn={onClose} id={data.id} />
+        <TaskHeader handleCloseBtn={onClose} id={data.id} edit={false} />
         <div className='task-form-modal__content modal-content'>
           <form
             className='form'

@@ -12,7 +12,7 @@ import {
   setVisuallyHiddenClass,
 } from '../../utils/const';
 
-function TaskInfoModal({ show, taskId, onClose }) {
+function TaskInfoModal({ show, taskId, onClose, handleShowTaskForm }) {
   const stateProjectId = useSelector(getProjectId);
   const stateProjects = useSelector(getProjects);
   const stateEntity = useSelector((state) => getEntity(state, stateProjectId));
@@ -21,10 +21,6 @@ function TaskInfoModal({ show, taskId, onClose }) {
   const handleUpdate = () => {
     const newProject = { ...stateProjects[stateProjectId] };
     newProject.data = stateEntity;
-
-    console.log('TaskInfoModal handleUpdate stateEntity');
-    console.log(stateEntity);
-
     updateData(newProject);
   };
 
@@ -45,6 +41,10 @@ function TaskInfoModal({ show, taskId, onClose }) {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
+  }, []);
+
+  useEffect(() => {
+    handleUpdate();
   }, [stateEntity]);
 
   if (show) {
@@ -54,7 +54,13 @@ function TaskInfoModal({ show, taskId, onClose }) {
     return (
       <div className={`modal task-info-modal ${setVisuallyHiddenClass(show)}`}>
         <div className='modal-container'>
-          <TaskHeader handleCloseBtn={onClose} id={task.id} />
+          <TaskHeader
+            handleCloseBtn={onClose}
+            id={task.id}
+            handleShowTaskForm={handleShowTaskForm}
+            edit={true}
+            task={task}
+          />
           <div className='task-info-modal__content modal-content'>
             <div className='info-field info-field__title'>
               <p className='info-field__name'>title</p>

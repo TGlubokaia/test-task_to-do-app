@@ -3,7 +3,7 @@ const updateData = (project) => {
   localStorage.setItem(`${project.id}`, newProject);
 };
 
-const updateTask = (project, task) => {
+const addTask = (project, task) => {
   project.data.tasks.byId[task.id] = task;
   project.data.tasks.allIds.push(task.id);
   updateData(project);
@@ -14,4 +14,4 @@ const getProject = (id) => {
   return project;
 };
 
-export { updateData, updateTask, getProject };
+export { updateData, addTask, getProject };

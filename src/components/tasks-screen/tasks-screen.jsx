@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProjects } from '../../store/selectors';
 import { ActionCreator } from '../../store/action';
-import { getProject } from '../../services/api';
 import DndTasksList from '../dnd-tasks-list/dnd-tasks-list';
 import TaskFormModal from '../task-form-modal/task-form-modal';
 import TaskInfoModal from '../task-info-modal/task-info-modal';
@@ -34,22 +33,22 @@ function TasksScreen() {
   const [showTaskInfo, setShowTaskInfo] = useState(false);
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [currentTaskId, setTaskId] = useState(null);
-  const [currentsTasks, setCurrentTasks] = useState(tasks);
+  const [isLoading, setLoading] = useState(false);
+
+  if (!isLoading) {
+    dispatch(ActionCreator.addProjectId(projectId));
+    setLoading(true);
+  }
 
   const handleTaskInfoOpen = (id) => {
     setTaskId(id);
     handleModalOpen(() => setShowTaskInfo(true));
   };
 
-  const handleFormSubmit = () => {
-    const currentProject = getProject(projectId);
-    const tasks = currentProject.data.tasks;
-    setCurrentTasks(tasks);
+  const handleShowTaskForm = () => {
+    setShowTaskInfo(false);
+    setShowTaskForm(true);
   };
-
-  useEffect(() => {
-    dispatch(ActionCreator.addProjectId(projectId));
-  }, []);
 
   return (
     <div className='project screen'>
@@ -73,18 +72,18 @@ function TasksScreen() {
         <DndTasksList
           project={project}
           handleShowTaskInfo={handleTaskInfoOpen}
-          tasks={currentsTasks}
+          tasks={tasks}
         />
       </div>
       <TaskFormModal
         show={showTaskForm}
         onClose={() => handleModalClose(() => setShowTaskForm(false))}
-        handleFormSubmit={handleFormSubmit}
         taskId={taskId}
       />
       <TaskInfoModal
         show={showTaskInfo}
         taskId={currentTaskId}
+        handleShowTaskForm={handleShowTaskForm}
         onClose={() => handleModalClose(() => setShowTaskInfo(false))}
         projectId={projectId}
       />

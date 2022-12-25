@@ -17,6 +17,7 @@ const store = createStore(
 );
 
 // Для добавления моков
+
 // localStorage.clear();
 // for (let key of Object.keys(projects)) {
 //   localStorage.setItem(`${key}`, JSON.stringify(projects[key]));
