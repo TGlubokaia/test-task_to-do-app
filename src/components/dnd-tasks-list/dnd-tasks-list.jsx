@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { getProjects } from '../../store/selectors';
 import { DragDropContext } from 'react-beautiful-dnd';
 import DndTasksColumn from '../dnd-tasks-column/dnd-tasks-column';
 import { initialColumns } from '../../mocks/tasks';

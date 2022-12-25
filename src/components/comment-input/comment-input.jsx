@@ -1,6 +1,6 @@
 import { setVisuallyHiddenClass, getUniqueId } from '../../utils/const';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProjectId, getEntity } from '../../store/selectors';
+import { getProjectId } from '../../store/selectors';
 import { ActionCreator } from '../../store/action';
 
 function CommentInput({
@@ -11,7 +11,6 @@ function CommentInput({
   category,
   root,
   taskId,
-  handleUpdate,
 }) {
   const stateProjectId = useSelector(getProjectId);
   const dispatch = useDispatch();
@@ -34,7 +33,6 @@ function CommentInput({
       level: category + 1,
     };
     dispatch(ActionCreator.addComment([reply, stateProjectId, taskId, root]));
-    handleUpdate();
     handleClose();
   };
 

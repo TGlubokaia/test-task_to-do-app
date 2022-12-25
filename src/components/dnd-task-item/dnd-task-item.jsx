@@ -1,7 +1,13 @@
 import { Draggable } from 'react-beautiful-dnd';
+import { useSelector } from 'react-redux';
+import { getProjectId, getEntity } from '../../store/selectors';
 import { getDate, getShortTitle } from '../../utils/const';
 
-function DndTaskItem({ item, index, handleShowTaskInfo }) {
+function DndTaskItem({ id, index, handleShowTaskInfo }) {
+  const stateProjectId = useSelector(getProjectId);
+  const stateEntity = useSelector((state) => getEntity(state, stateProjectId));
+  const task = stateEntity.tasks.byId[id];
+
   const getCheckedTasksNumber = (tasks) => {
     if (!tasks) {
       return 0;
@@ -11,7 +17,7 @@ function DndTaskItem({ item, index, handleShowTaskInfo }) {
   };
 
   return (
-    <Draggable key={item.id} draggableId={item.id} index={index}>
+    <Draggable key={task.id} draggableId={task.id} index={index}>
       {(provided, snapshot) => {
         return (
           <div
@@ -25,10 +31,10 @@ function DndTaskItem({ item, index, handleShowTaskInfo }) {
             }}>
             <div className='task__container'>
               <header className='task__header'>
-                <span className='task__number'>#{item.id}</span>
+                <span className='task__number'>#{task.id}</span>
                 <div
-                  className={`task__priority task__priority--${item.priority}`}>
-                  <span>{item.priority}</span>
+                  className={`task__priority task__priority--${task.priority}`}>
+                  <span>{task.priority}</span>
                 </div>
               </header>
               <div className='task__content'>
@@ -36,30 +42,30 @@ function DndTaskItem({ item, index, handleShowTaskInfo }) {
                   <a
                     href='#'
                     className='task__title-link'
-                    onClick={() => handleShowTaskInfo(item.id)}>
-                    {getShortTitle(item.title)}
+                    onClick={() => handleShowTaskInfo(task.id)}>
+                    {getShortTitle(task.title)}
                   </a>
                 </h3>
               </div>
               <footer className='task__footer'>
                 <div className='footer__content footer__content-main'>
-                  {!!item.files.length && (
+                  {!!task.files.length && (
                     <div className='footer__icon'>
                       <svg className='task-icon__svg' height='17' width='17'>
                         <use href='/sprite.svg#clip'></use>
                       </svg>
-                      <span>{item.files.length}</span>
+                      <span>{task.files.length}</span>
                     </div>
                   )}
-                  {!!item.subtasks.length && (
+                  {!!task.subtasks.length && (
                     <div className='footer__icon'>
                       <span>
-                        {getCheckedTasksNumber(item.subtasks)}/
-                        {item.subtasks.length}
+                        {getCheckedTasksNumber(task.subtasks)}/
+                        {task.subtasks.length}
                       </span>
                     </div>
                   )}
-                  {!!item.comments.length && (
+                  {!!task.comments.length && (
                     <div className='footer__icon'>
                       <svg className='task-icon__svg' height='17' width='17'>
                         <use href='/sprite.svg#comments'></use>
@@ -69,12 +75,12 @@ function DndTaskItem({ item, index, handleShowTaskInfo }) {
                   )}
                 </div>
                 <div className='footer__content footer__content-end'>
-                  {!!item.dueDate && (
+                  {!!task.dueDate && (
                     <div className='footer__icon'>
                       <svg className='task-icon__svg' height='17' width='17'>
                         <use href='/sprite.svg#dueDate'></use>
                       </svg>
-                      <span>&nbsp;{getDate(false, item.dueDate)}</span>
+                      <span>&nbsp;{getDate(false, task.dueDate)}</span>
                     </div>
                   )}
                 </div>
