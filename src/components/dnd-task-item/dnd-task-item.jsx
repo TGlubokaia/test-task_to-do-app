@@ -80,7 +80,7 @@ function DndTaskItem({ id, index, handleShowTaskInfo }) {
                       <svg className='task-icon__svg' height='17' width='17'>
                         <use href='/sprite.svg#dueDate'></use>
                       </svg>
-                      <span>&nbsp;{getDate(false, task.dueDate)}</span>
+                      <span>&nbsp;{getDate('item', task.dueDate)}</span>
                     </div>
                   )}
                 </div>

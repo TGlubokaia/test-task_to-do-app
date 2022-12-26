@@ -21,7 +21,7 @@ function Comment({ comment, taskId, handleUpdate }) {
       <article className='comment__item'>
         <p className='comment__text'>{comment.text}</p>
         <button
-          className='comment__btn btn'
+          className='comment__btn extra-btn btn'
           type='button'
           onClick={() => setShowInput(true)}>
           reply

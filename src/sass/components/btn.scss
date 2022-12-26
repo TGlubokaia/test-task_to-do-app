@@ -19,6 +19,10 @@ button {
   }
 }
 
+.btn:disabled {
+  @include disabled;
+}
+
 .btn-submit {
   margin-top: 1rem;
 }
@@ -32,6 +36,18 @@ button {
   background-color: $main-purple;
 }
 
-.btn-close__svg {
+.btn-close__svg,
+.btn-edit__svg {
   fill: $white;
+}
+
+.extra-btn {
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  background-color: $light-purple;
+  color: $dark-purple;
+
+  &:hover {
+    color: $white;
+  }
 }

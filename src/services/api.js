@@ -9,9 +9,14 @@ const addTask = (project, task) => {
   updateData(project);
 };
 
+const updateTask = (project, task) => {
+  project.data.tasks.byId[task.id] = task;
+  updateData(project);
+};
+
 const getProject = (id) => {
   const project = JSON.parse(localStorage.getItem(`${id}`));
   return project;
 };
 
-export { updateData, addTask, getProject };
+export { updateData, addTask, getProject, updateTask };

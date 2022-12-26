@@ -33,14 +33,17 @@ const getInitialTaskData = (taskId) => ({
   comments: [],
 });
 
-const getDate = (fulldate, date) => {
-  if (!date) {
-    return;
+const getDate = (format, date) => {
+  switch (format) {
+    case 'item':
+      return dayjs(date).format('DD MMM HH:mm');
+    case 'info':
+      return dayjs(date).format('DD MMM YYYY HH:mm');
+    case 'form':
+      return dayjs(date).format('YYYY-MM-DDTHH:mm');
+    default:
+      return '';
   }
-  if (fulldate) {
-    return dayjs(date).format('DD MMM YYYY HH:mm');
-  }
-  return dayjs(date).format('DD MMM HH:mm');
 };
 
 const getDuration = (date) => {

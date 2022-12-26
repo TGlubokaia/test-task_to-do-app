@@ -45,6 +45,16 @@ function TasksScreen() {
     handleModalOpen(() => setShowTaskInfo(true));
   };
 
+  const handleTaskInfoClose = () => {
+    handleModalClose(() => setShowTaskInfo(false));
+    setTaskId(null);
+  };
+
+  const handleTaskFormClose = () => {
+    handleModalClose(() => setShowTaskForm(false));
+    setTaskId(null);
+  };
+
   const handleShowTaskForm = () => {
     setShowTaskInfo(false);
     setShowTaskForm(true);
@@ -77,14 +87,15 @@ function TasksScreen() {
       </div>
       <TaskFormModal
         show={showTaskForm}
-        onClose={() => handleModalClose(() => setShowTaskForm(false))}
-        taskId={taskId}
+        onClose={handleTaskFormClose}
+        currentTaskId={currentTaskId}
+        newId={taskId}
       />
       <TaskInfoModal
         show={showTaskInfo}
         taskId={currentTaskId}
         handleShowTaskForm={handleShowTaskForm}
-        onClose={() => handleModalClose(() => setShowTaskInfo(false))}
+        onClose={handleTaskInfoClose}
         projectId={projectId}
       />
       <TaskSearchModal show={false} />

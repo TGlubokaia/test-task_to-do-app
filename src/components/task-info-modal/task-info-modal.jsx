@@ -92,7 +92,7 @@ function TaskInfoModal({ show, taskId, onClose, handleShowTaskForm }) {
             <div className='info-field info-field__date'>
               <p className='info-field__name'>created</p>
               <p className='info-field__info info-field__date-info'>
-                {getDate(true, task.date)}
+                {getDate('info', task.date)}
               </p>
             </div>
             <div className='info-field info-field__duration'>
@@ -104,7 +104,7 @@ function TaskInfoModal({ show, taskId, onClose, handleShowTaskForm }) {
             <div className='info-field info-field__dueDate'>
               <p className='info-field__name'>due date</p>
               <p className='info-field__info info-field__dueDate-info'>
-                {getDate(true, task.dueDate)}
+                {task.dueDate && getDate('info', task.dueDate)}
               </p>
             </div>
             <div className='info-field info-field__files'>
@@ -118,8 +118,10 @@ function TaskInfoModal({ show, taskId, onClose, handleShowTaskForm }) {
                   task.subtasks.map((task) => (
                     <SubtaskItem
                       task={task}
-                      onChange={handleChange}
+                      handleSubtaskChange={handleChange}
                       key={task.id}
+                      isForm={false}
+                      handleSubtaskDelete={null}
                     />
                   ))}
               </div>

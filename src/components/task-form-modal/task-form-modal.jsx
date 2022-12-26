@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
-import { addTask } from '../../services/api';
+import { addTask, updateTask } from '../../services/api';
 import { getProjectId, getProjects } from '../../store/selectors';
 import { fetchProjects } from '../../store/api-action';
 import TaskHeader from '../task-header/task-header';
@@ -12,9 +12,10 @@ import {
   getUniqueId,
   getInitialTaskData,
   initialSubtaskState,
+  getDate,
 } from '../../utils/const';
 
-function TaskFormModal({ show, onClose, taskId, task }) {
+function TaskFormModal({ show, onClose, currentTaskId, newId }) {
   const stateProjectId = useSelector(getProjectId);
   const stateProjects = useSelector(getProjects);
   const dispatch = useDispatch();
@@ -22,10 +23,10 @@ function TaskFormModal({ show, onClose, taskId, task }) {
   const project = { ...stateProjects[stateProjectId] };
   let data = null;
 
-  if (!task) {
-    data = getInitialTaskData(taskId);
+  if (currentTaskId === null) {
+    data = getInitialTaskData(newId);
   } else {
-    data = task;
+    data = project.data.tasks.byId[currentTaskId];
   }
 
   const [formData, setFormData] = useState(data);
@@ -39,9 +40,15 @@ function TaskFormModal({ show, onClose, taskId, task }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const creationDate = dayjs().format();
-    const newTask = { ...formData, date: creationDate };
-    addTask(project, newTask);
+
+    if (currentTaskId === null) {
+      const creationDate = dayjs().format();
+      const newTask = { ...formData, date: creationDate };
+      addTask(project, newTask);
+    } else {
+      const updatedTask = { ...formData };
+      updateTask(project, updatedTask);
+    }
     dispatch(fetchProjects());
     onClose();
   };
@@ -61,12 +68,17 @@ function TaskFormModal({ show, onClose, taskId, task }) {
     setSubtaskInput(initialSubtaskState);
   };
 
-  const handleSubtaskChange = (event, curentTask) => {
+  const handleSubtaskChange = (currentTask) => {
     const task = { ...formData };
-    const index = task.subtasks.findIndex((task) => task.id === curentTask.id);
-    const subtask = task.subtasks[index];
-    subtask.done = event.target.checked;
-    task.subtasks.splice(index, 1, subtask);
+    const index = task.subtasks.findIndex((task) => task.id === currentTask.id);
+    task.subtasks.splice(index, 1, currentTask);
+    setFormData(task);
+  };
+
+  const handleSubtaskDelete = (currentTask) => {
+    const task = { ...formData };
+    const index = task.subtasks.findIndex((task) => task.id === currentTask.id);
+    task.subtasks.splice(index, 1);
     setFormData(task);
   };
 
@@ -166,7 +178,7 @@ function TaskFormModal({ show, onClose, taskId, task }) {
                   type='datetime-local'
                   id='due-date'
                   name='dueDate'
-                  value={formData.dueDate}
+                  value={formData.dueDate && getDate('form', formData.dueDate)}
                   onChange={handleChange}
                 />
               </div>
@@ -174,7 +186,6 @@ function TaskFormModal({ show, onClose, taskId, task }) {
 
             <div className='form-group'>
               <p className='form-group__name'>attachments</p>
-
               <div
                 className='form-group__field'
                 title='Files attachment is unavailable now'>
@@ -190,7 +201,6 @@ function TaskFormModal({ show, onClose, taskId, task }) {
 
             <div className='form-group'>
               <p className='form-group__name'>subtasks</p>
-
               <div className='form-group__field'>
                 <SubtaskInput
                   addSubtask={addSubtask}
@@ -202,8 +212,10 @@ function TaskFormModal({ show, onClose, taskId, task }) {
                 {formData.subtasks.map((task) => (
                   <SubtaskItem
                     task={task}
-                    onChange={handleSubtaskChange}
+                    handleSubtaskChange={handleSubtaskChange}
+                    handleSubtaskDelete={handleSubtaskDelete}
                     key={task.id}
+                    isForm={true}
                   />
                 ))}
               </section>
