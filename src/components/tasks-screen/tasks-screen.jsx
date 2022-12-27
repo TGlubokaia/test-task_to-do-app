@@ -32,6 +32,7 @@ function TasksScreen() {
 
   const [showTaskInfo, setShowTaskInfo] = useState(false);
   const [showTaskForm, setShowTaskForm] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const [currentTaskId, setTaskId] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
@@ -43,6 +44,9 @@ function TasksScreen() {
   const handleTaskInfoOpen = (id) => {
     setTaskId(id);
     handleModalOpen(() => setShowTaskInfo(true));
+    if (showSearch) {
+      setShowSearch(false);
+    }
   };
 
   const handleTaskInfoClose = () => {
@@ -77,6 +81,13 @@ function TasksScreen() {
               <use href='/sprite.svg#plus'></use>
             </svg>
           </button>
+          <button
+            className='nav__btn btn'
+            onClick={() => handleModalOpen(() => setShowSearch(true))}>
+            <svg className='btn-close__svg' height='15' width='15'>
+              <use href='/sprite.svg#search'></use>
+            </svg>
+          </button>
         </nav>
 
         <DndTasksList
@@ -98,7 +109,11 @@ function TasksScreen() {
         onClose={handleTaskInfoClose}
         projectId={projectId}
       />
-      <TaskSearchModal show={false} />
+      <TaskSearchModal
+        show={showSearch}
+        onClose={() => handleModalOpen(() => setShowSearch(false))}
+        handleShowTaskInfo={handleTaskInfoOpen}
+      />
     </div>
   );
 }

@@ -1,0 +1,64 @@
+.search-modal__container {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  min-height: 500px;
+  overflow: hidden;
+}
+
+.search-modal__content {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  overflow-y: hidden;
+}
+
+.search-modal__form-group {
+  display: flex;
+}
+
+.search-modal__btn-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.form_radio_btn input[type='radio'] {
+  display: none;
+}
+
+.search-btn {
+  display: flex;
+  margin-left: 0.5rem;
+  background-color: $grey;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: $dark-grey;
+  }
+}
+
+.form_radio_btn input[type='radio']:checked + label {
+  background: $dark-purple;
+}
+
+.search-modal__tasks-list {
+  margin-top: 1rem;
+  overflow-y: auto;
+
+  & > *:not(:first-child) {
+    margin-top: 1rem;
+  }
+}
+
+.search-modal__task {
+  padding: $padding;
+  border: 1px solid $grey;
+  border-radius: $border-radius;
+}
+
+.subtask-form > *:not(:last-child) {
+  margin-right: 1rem;
+}

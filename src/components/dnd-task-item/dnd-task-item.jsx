@@ -20,7 +20,7 @@ function DndTaskItem({ id, index, handleShowTaskInfo }) {
     <Draggable key={task.id} draggableId={task.id} index={index}>
       {(provided, snapshot) => {
         return (
-          <div
+          <article
             className='dnd__task'
             ref={provided.innerRef}
             {...provided.draggableProps}
@@ -86,7 +86,7 @@ function DndTaskItem({ id, index, handleShowTaskInfo }) {
                 </div>
               </footer>
             </div>
-          </div>
+          </article>
         );
       }}
     </Draggable>
