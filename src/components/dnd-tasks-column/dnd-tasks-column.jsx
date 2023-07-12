@@ -20,7 +20,7 @@ function DndTasksColumn({ columnId, column, handleShowTaskInfo }) {
               {column.items.map((item, index) => {
                 return (
                   <DndTaskItem
-                    id={item.id}
+                    task={item}
                     index={index}
                     key={item.id}
                     handleShowTaskInfo={handleShowTaskInfo}

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getProjects } from '../../store/selectors';
-import { ActionCreator } from '../../store/action';
+import ProjectContext from '../../utils/context';
 import DndTasksList from '../dnd-tasks-list/dnd-tasks-list';
 import TaskFormModal from '../task-form-modal/task-form-modal';
 import TaskInfoModal from '../task-info-modal/task-info-modal';
@@ -24,10 +24,8 @@ function TasksScreen() {
   const projectId = params.id;
 
   const stateProjects = useSelector(getProjects);
-  const dispatch = useDispatch();
-
   const project = { ...stateProjects[projectId] };
-  const tasks = project.data.tasks;
+
   const taskId = getUniqueId();
 
   const [showTaskInfo, setShowTaskInfo] = useState(false);
@@ -37,7 +35,6 @@ function TasksScreen() {
   const [isLoading, setLoading] = useState(false);
 
   if (!isLoading) {
-    dispatch(ActionCreator.addProjectId(projectId));
     setLoading(true);
   }
 
@@ -66,54 +63,54 @@ function TasksScreen() {
 
   return (
     <div className='project screen'>
-      <div className='container'>
-        <h1 className='project__title'>{project.title}</h1>
-        <nav className='nav'>
-          <Link to='/' className='nav__btn btn'>
-            <svg className='btn-close__svg' height='15' width='15'>
-              <use href='/sprite.svg#home'></use>
-            </svg>
-          </Link>
-          <button
-            className='nav__btn btn'
-            onClick={() => handleModalOpen(() => setShowTaskForm(true))}>
-            <svg className='btn-close__svg' height='15' width='15'>
-              <use href='/sprite.svg#plus'></use>
-            </svg>
-          </button>
-          <button
-            className='nav__btn btn'
-            onClick={() => handleModalOpen(() => setShowSearch(true))}>
-            <svg className='btn-close__svg' height='15' width='15'>
-              <use href='/sprite.svg#search'></use>
-            </svg>
-          </button>
-        </nav>
+      <ProjectContext.Provider value={project.data}>
+        <div className='container'>
+          <h1 className='project__title'>{project.title}</h1>
+          <nav className='nav'>
+            <Link to='/' className='nav__btn btn'>
+              <svg className='btn-close__svg' height='15' width='15'>
+                <use href='/sprite.svg#home'></use>
+              </svg>
+            </Link>
+            <button
+              className='nav__btn btn'
+              onClick={() => handleModalOpen(() => setShowTaskForm(true))}>
+              <svg className='btn-close__svg' height='15' width='15'>
+                <use href='/sprite.svg#plus'></use>
+              </svg>
+            </button>
+            <button
+              className='nav__btn btn'
+              onClick={() => handleModalOpen(() => setShowSearch(true))}>
+              <svg className='btn-close__svg' height='15' width='15'>
+                <use href='/sprite.svg#search'></use>
+              </svg>
+            </button>
+          </nav>
 
-        <DndTasksList
-          project={project}
-          handleShowTaskInfo={handleTaskInfoOpen}
-          tasks={tasks}
+          <DndTasksList
+            handleShowTaskInfo={handleTaskInfoOpen}
+          />
+        </div>
+        <TaskFormModal
+          show={showTaskForm}
+          onClose={handleTaskFormClose}
+          currentTaskId={currentTaskId}
+          newId={taskId}
         />
-      </div>
-      <TaskFormModal
-        show={showTaskForm}
-        onClose={handleTaskFormClose}
-        currentTaskId={currentTaskId}
-        newId={taskId}
-      />
-      <TaskInfoModal
-        show={showTaskInfo}
-        taskId={currentTaskId}
-        handleShowTaskForm={handleShowTaskForm}
-        onClose={handleTaskInfoClose}
-        projectId={projectId}
-      />
-      <TaskSearchModal
-        show={showSearch}
-        onClose={() => handleModalOpen(() => setShowSearch(false))}
-        handleShowTaskInfo={handleTaskInfoOpen}
-      />
+        <TaskInfoModal
+          show={showTaskInfo}
+          taskId={currentTaskId}
+          handleShowTaskForm={handleShowTaskForm}
+          onClose={handleTaskInfoClose}
+          projectId={projectId}
+        />
+        <TaskSearchModal
+          show={showSearch}
+          onClose={() => handleModalOpen(() => setShowSearch(false))}
+          handleShowTaskInfo={handleTaskInfoOpen}
+        />
+      </ProjectContext.Provider>
     </div>
   );
 }

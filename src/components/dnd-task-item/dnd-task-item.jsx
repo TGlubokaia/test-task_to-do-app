@@ -1,13 +1,7 @@
 import { Draggable } from 'react-beautiful-dnd';
-import { useSelector } from 'react-redux';
-import { getProjectId, getEntity } from '../../store/selectors';
 import { getDate, getShortTitle } from '../../utils/const';
 
-function DndTaskItem({ id, index, handleShowTaskInfo }) {
-  const stateProjectId = useSelector(getProjectId);
-  const stateEntity = useSelector((state) => getEntity(state, stateProjectId));
-  const task = stateEntity.tasks.byId[id];
-
+function DndTaskItem({ task, index, handleShowTaskInfo }) {
   const getCheckedTasksNumber = (tasks) => {
     if (!tasks) {
       return 0;

@@ -1,16 +1,11 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useContext } from 'react';
+import ProjectContext from '../../utils/context';
 import TaskItemSearch from '../task-item-search/task-item-search';
 import { setVisuallyHiddenClass } from '../../utils/const';
-import { getEntity, getProjectId } from '../../store/selectors';
 
 function TaskSearchModal({ show, onClose, handleShowTaskInfo }) {
-  const stateProjectId = useSelector(getProjectId);
-  const stateEntity = useSelector((state) => getEntity(state, stateProjectId));
-
-  const tasks = Object.keys(stateEntity.tasks.byId).map(
-    (id) => stateEntity.tasks.byId[id]
-  );
+  const project = useContext(ProjectContext);
+  const tasks = project.tasks.allIds.map((id) => project.tasks.byId[id]);
 
   const [searchType, setSearchType] = useState('id');
   const [searchInput, setSearchInput] = useState('');

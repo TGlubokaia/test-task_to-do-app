@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import ProjectContext from '../../utils/context';
 import { DragDropContext } from 'react-beautiful-dnd';
 import DndTasksColumn from '../dnd-tasks-column/dnd-tasks-column';
 import { initialColumns } from '../../mocks/tasks';
@@ -75,11 +76,12 @@ const dataUpdate = (isDropped, columns, project, setIsDropped) => {
   return;
 };
 
-function DndTaskList({ project, handleShowTaskInfo, tasks }) {
-  const tasksArray = tasks.allIds.map((id) => tasks.byId[id]);
+function DndTaskList({ handleShowTaskInfo }) {
+  const project = useContext(ProjectContext);
+  const tasks = project.tasks.allIds.map((id) => project.tasks.byId[id]);
 
   for (let columnId of Object.keys(initialColumns)) {
-    initialColumns[columnId].items = tasksArray.filter(
+    initialColumns[columnId].items = tasks.filter(
       (task) => task.status === columnId
     );
   }

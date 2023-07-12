@@ -16,7 +16,7 @@ function ProjectsScreen() {
         <ul>
           {projectsList.map((project) => (
             <Link to={`/project/${project.id}`} key={project.id}>
-              <li>Заголовок</li>
+              <li>{project.title}</li>
             </Link>
           ))}
         </ul>

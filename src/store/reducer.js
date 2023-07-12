@@ -5,16 +5,18 @@ const initialState = {
   projectId: null,
 };
 
-const getProjects = (projects, state = initialState) => {
-  state = { ...state, projects };
-  for (let key of Object.keys(projects)) {
-    state = { ...state, [key]: projects[key] };
-    for (let entity of Object.keys(projects[key].data)) {
+const getProjects = (currentProjects, state = initialState) => {
+  console.log(Object.keys(currentProjects));
+  console.log(state);
+  state = { ...state, projects: currentProjects };
+  for (let key of Object.keys(currentProjects)) {
+    state = { ...state, [key]: currentProjects[key] };
+    for (let entity of Object.keys(currentProjects[key].data)) {
       state = {
         ...state,
         ['entity' + key]: {
           ...state['entity' + key],
-          [entity]: projects[key].data[entity],
+          [entity]: currentProjects[key].data[entity],
         },
       };
     }
